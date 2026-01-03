@@ -10,39 +10,44 @@ import { useState } from 'react';
 
 const DEFAULT_CONTACT = {
   title: 'Get in Touch',
-  subtitle:
-    "Ready to streamline your invoicing? Let's discuss how our platform can transform your financial workflow.",
+  subtitle: "Ready to transform your business? Let's start the conversation.",
+  description:
+    'Our team of experts is here to help you leverage cutting-edge technology solutions. Reach out today and discover how we can accelerate your digital transformation.',
   formTitle: 'Send us a message',
-  formSubtitle: "We'll get back to you within 24 hours",
+  formSubtitle: "Fill out the form below and we'll get back to you within 24 hours.",
   contactMethods: [
     {
-      title: 'Email Support',
-      description: 'Get help with your account or technical questions',
-      value: 'support@invoiceapp.com',
+      title: 'Email Us',
+      value: 'hello@company.com',
+      description: 'Send us an email anytime',
     },
     {
-      title: 'Sales Inquiries',
-      description: 'Learn about pricing and enterprise solutions',
+      title: 'Call Us',
       value: '+1 (555) 123-4567',
+      description: 'Mon-Fri from 8am to 6pm',
     },
     {
-      title: 'Office Location',
-      description: 'Visit us at our headquarters',
-      value: '123 Business Ave, Suite 100, San Francisco, CA 94105',
+      title: 'Visit Us',
+      value: '123 Innovation Drive, Tech City, TC 12345',
+      description: 'Our headquarters',
     },
   ],
-  form: {
-    nameLabel: 'Full Name',
-    namePlaceholder: 'Enter your full name',
-    emailLabel: 'Email Address',
-    emailPlaceholder: 'Enter your email address',
-    companyLabel: 'Company Name',
-    companyPlaceholder: 'Enter your company name',
-    messageLabel: 'Message',
-    messagePlaceholder: 'Tell us about your invoicing needs and how we can help...',
-    submitText: 'Send Message',
-    privacyText: 'By submitting this form, you agree to our privacy policy and terms of service.',
-  },
+  features: [
+    {
+      title: '24/7 Support',
+      description: 'Round-the-clock technical assistance',
+    },
+    {
+      title: 'Expert Consultation',
+      description: 'Strategic guidance from industry leaders',
+    },
+    {
+      title: 'Rapid Response',
+      description: 'Quick turnaround on all inquiries',
+    },
+  ],
+  submitText: 'Send Message',
+  successMessage: "Thank you! We'll be in touch soon.",
 } as const;
 
 type ContactProps = Partial<typeof DEFAULT_CONTACT>;
@@ -56,9 +61,11 @@ export default function Contact(props: ContactProps) {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,9 +75,12 @@ export default function Contact(props: ContactProps) {
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // Reset form
-    setFormData({ name: '', email: '', company: '', message: '' });
     setIsSubmitting(false);
+    setIsSubmitted(true);
+    setFormData({ name: '', email: '', company: '', message: '' });
+
+    // Reset success message after 3 seconds
+    setTimeout(() => setIsSubmitted(false), 3000);
   };
 
   return (
@@ -78,171 +88,166 @@ export default function Contact(props: ContactProps) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+          <h2 className="text-4xl font-bold mb-4">
             <span data-editable="title">{config.title}</span>
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground mb-6 max-w-3xl mx-auto">
             <span data-editable="subtitle">{config.subtitle}</span>
+          </p>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            <span data-editable="description">{config.description}</span>
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Contact Methods */}
-          <div className="space-y-8">
-            <div className="grid gap-6">
-              {config.contactMethods.map((method, idx) => (
-                <Card
-                  key={idx}
-                  className="bg-card text-card-foreground border-border hover:bg-accent/50 transition-colors"
-                >
-                  <CardContent className="p-6">
-                    <div className="flex items-start gap-4">
-                      <div className="text-primary mt-1">
-                        {idx === 0 && <Mail className="h-6 w-6" />}
-                        {idx === 1 && <Phone className="h-6 w-6" />}
-                        {idx === 2 && <MapPin className="h-6 w-6" />}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-lg mb-2">
-                          <span data-editable={`contactMethods[${idx}].title`}>{method.title}</span>
-                        </h3>
-                        <p className="text-muted-foreground mb-3">
-                          <span data-editable={`contactMethods[${idx}].description`}>
-                            {method.description}
-                          </span>
-                        </p>
-                        <p className="font-medium text-foreground">
-                          <span data-editable={`contactMethods[${idx}].value`}>{method.value}</span>
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+        <div className="grid lg:grid-cols-2 gap-12 mb-16">
+          {/* Contact Form */}
+          <Card className="bg-card text-card-foreground">
+            <CardContent className="p-8">
+              <div className="mb-6">
+                <h3 className="text-2xl font-semibold mb-2">
+                  <span data-editable="formTitle">{config.formTitle}</span>
+                </h3>
+                <p className="text-muted-foreground">
+                  <span data-editable="formSubtitle">{config.formSubtitle}</span>
+                </p>
+              </div>
 
-            {/* Additional Info */}
-            <Card className="bg-primary text-primary-foreground">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  <Clock className="h-6 w-6 mt-1" />
+              {isSubmitted ? (
+                <div className="text-center py-8">
+                  <div className="mb-4 text-primary">
+                    <Send className="h-12 w-12 mx-auto" />
+                  </div>
+                  <p className="text-lg font-medium text-primary">
+                    <span data-editable="successMessage">{config.successMessage}</span>
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="name">Name *</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        type="text"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        className="mt-1"
+                        placeholder="Your full name"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="email">Email *</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        className="mt-1"
+                        placeholder="your@email.com"
+                      />
+                    </div>
+                  </div>
+
                   <div>
-                    <h3 className="font-semibold text-lg mb-2">Response Time</h3>
-                    <p className="opacity-90">
-                      We typically respond to all inquiries within 24 hours during business days.
-                      For urgent technical support, please call our support line.
+                    <Label htmlFor="company">Company</Label>
+                    <Input
+                      id="company"
+                      name="company"
+                      type="text"
+                      value={formData.company}
+                      onChange={handleInputChange}
+                      className="mt-1"
+                      placeholder="Your company name"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="message">Message *</Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      required
+                      className="mt-1 min-h-[120px]"
+                      placeholder="Tell us about your project or how we can help..."
+                    />
+                  </div>
+
+                  <Button type="submit" disabled={isSubmitting} className="w-full">
+                    {isSubmitting ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4 mr-2" />
+                        <span data-editable="submitText">{config.submitText}</span>
+                      </>
+                    )}
+                  </Button>
+                </form>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Contact Information */}
+          <div className="space-y-8">
+            <div className="space-y-6">
+              {config.contactMethods.map((method, idx) => (
+                <div key={idx} className="flex items-start gap-4">
+                  <div className="text-primary mt-1">
+                    {idx === 0 && <Mail className="h-6 w-6" />}
+                    {idx === 1 && <Phone className="h-6 w-6" />}
+                    {idx === 2 && <MapPin className="h-6 w-6" />}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-1">
+                      <span data-editable={`contactMethods[${idx}].title`}>{method.title}</span>
+                    </h4>
+                    <p className="text-foreground font-medium">
+                      <span data-editable={`contactMethods[${idx}].value`}>{method.value}</span>
+                    </p>
+                    <p className="text-muted-foreground text-sm">
+                      <span data-editable={`contactMethods[${idx}].description`}>
+                        {method.description}
+                      </span>
                     </p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              ))}
+            </div>
 
-          {/* Contact Form */}
-          <div>
-            <Card className="bg-card text-card-foreground border-border">
-              <CardContent className="p-8">
-                <div className="mb-8">
-                  <div className="flex items-center gap-3 mb-4">
-                    <MessageSquare className="h-6 w-6 text-primary" />
-                    <h3 className="text-2xl font-bold">
-                      <span data-editable="formTitle">{config.formTitle}</span>
-                    </h3>
-                  </div>
-                  <p className="text-muted-foreground">
-                    <span data-editable="formSubtitle">{config.formSubtitle}</span>
-                  </p>
-                </div>
-
-                <form
-                  onSubmit={handleSubmit}
-                  className="space-y-6"
-                  data-form-id="69598d5bb2f6a1bdd26b9d0d"
-                >
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">
-                        <span data-editable="form.nameLabel">{config.form.nameLabel}</span>
-                      </Label>
-                      <Input
-                        id="name"
-                        type="text"
-                        value={formData.name}
-                        onChange={e => handleInputChange('name', e.target.value)}
-                        placeholder={config.form.namePlaceholder}
-                        required
-                        className="bg-background border-input"
-                      />
+            {/* Features */}
+            <div className="bg-muted/50 rounded-lg p-6">
+              <h4 className="font-semibold mb-4">Why Choose Us</h4>
+              <div className="space-y-4">
+                {config.features.map((feature, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <div className="text-primary mt-0.5">
+                      {idx === 0 && <Clock className="h-5 w-5" />}
+                      {idx === 1 && <MessageSquare className="h-5 w-5" />}
+                      {idx === 2 && <Send className="h-5 w-5" />}
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">
-                        <span data-editable="form.emailLabel">{config.form.emailLabel}</span>
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={e => handleInputChange('email', e.target.value)}
-                        placeholder={config.form.emailPlaceholder}
-                        required
-                        className="bg-background border-input"
-                      />
+                    <div>
+                      <h5 className="font-medium">
+                        <span data-editable={`features[${idx}].title`}>{feature.title}</span>
+                      </h5>
+                      <p className="text-muted-foreground text-sm">
+                        <span data-editable={`features[${idx}].description`}>
+                          {feature.description}
+                        </span>
+                      </p>
                     </div>
                   </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="company">
-                      <span data-editable="form.companyLabel">{config.form.companyLabel}</span>
-                    </Label>
-                    <Input
-                      id="company"
-                      type="text"
-                      value={formData.company}
-                      onChange={e => handleInputChange('company', e.target.value)}
-                      placeholder={config.form.companyPlaceholder}
-                      className="bg-background border-input"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="message">
-                      <span data-editable="form.messageLabel">{config.form.messageLabel}</span>
-                    </Label>
-                    <Textarea
-                      id="message"
-                      value={formData.message}
-                      onChange={e => handleInputChange('message', e.target.value)}
-                      placeholder={config.form.messagePlaceholder}
-                      rows={5}
-                      required
-                      className="bg-background border-input resize-none"
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                  >
-                    {isSubmitting ? (
-                      <div className="flex items-center gap-2">
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                        Sending...
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2">
-                        <Send className="h-4 w-4" />
-                        <span data-editable="form.submitText">{config.form.submitText}</span>
-                      </div>
-                    )}
-                  </Button>
-
-                  <p className="text-sm text-muted-foreground text-center">
-                    <span data-editable="form.privacyText">{config.form.privacyText}</span>
-                  </p>
-                </form>
-              </CardContent>
-            </Card>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
