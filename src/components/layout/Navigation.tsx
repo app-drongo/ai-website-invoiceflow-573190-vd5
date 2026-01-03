@@ -53,7 +53,7 @@ export default function Navigation(props: NavigationProps) {
               alt={config.logoAlt}
               width={120}
               height={48}
-              className="h-10 md:h-12 lg:h-14 w-auto object-contain"
+              className="h-12 md:h-14 lg:h-16 w-auto object-contain"
               data-editable-src="logoUrl"
               priority
             />
@@ -102,7 +102,7 @@ export default function Navigation(props: NavigationProps) {
                     alt={config.logoAlt}
                     width={120}
                     height={48}
-                    className="h-10 w-auto object-contain"
+                    className="h-12 w-auto object-contain"
                     data-editable-src="logoUrl"
                   />
                   <Button
