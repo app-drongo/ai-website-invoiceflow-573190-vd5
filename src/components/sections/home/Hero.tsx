@@ -3,8 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Zap, Shield, Rocket } from 'lucide-react';
-import Image from 'next/image';
+import { ArrowRight, Zap, Shield, Rocket, Star, Users, TrendingUp } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useSmartNavigation } from '@/hooks/useSmartNavigation';
 
@@ -12,32 +11,31 @@ const DEFAULT_HERO = {
   badge: '🚀 Now in Beta',
   title: 'Deploy Anywhere, Scale Everywhere',
   subtitle:
-    'The unified deployment platform that connects your code to any cloud, edge, or infrastructure with zero configuration.',
-  primaryCta: 'Start Deploying',
+    'The unified deployment platform that connects your code to any cloud, any environment, any scale. Ship faster with intelligent automation.',
+  primaryCta: 'Start Free Trial',
   primaryCtaHref: '/signup',
   secondaryCta: 'View Demo',
   secondaryCtaHref: '/demo',
-  imageUrl: 'https://pub-60de11c8c43b49ea9bd786eb6273aa91.r2.dev/0a8f0e8338ef58a2c02d8a3edc1d034c.png',
-  imageAlt: 'Modern deployment dashboard interface',
   features: [
     {
       title: 'Lightning Fast',
       description:
-        'Deploy in seconds, not minutes. Our optimized pipeline gets your code live instantly.',
+        'Deploy in seconds, not minutes. Our optimized pipeline reduces deployment time by 90%.',
     },
     {
       title: 'Enterprise Security',
-      description: 'Bank-grade encryption and compliance standards protect your deployments.',
+      description:
+        'Bank-grade encryption and compliance. SOC2, GDPR, and HIPAA ready out of the box.',
     },
     {
       title: 'Auto-Scale',
-      description: 'Intelligent scaling adapts to traffic spikes without manual intervention.',
+      description: 'Intelligent scaling that adapts to your traffic. Pay only for what you use.',
     },
   ],
   stats: [
     { value: '99.9%', label: 'Uptime SLA' },
-    { value: '< 30s', label: 'Deploy Time' },
-    { value: '50K+', label: 'Deployments' },
+    { value: '10M+', label: 'Deployments' },
+    { value: '500ms', label: 'Avg Deploy Time' },
   ],
 } as const;
 
@@ -61,63 +59,78 @@ export default function Hero(props: HeroProps) {
   };
 
   return (
-    <section id="hero" className="relative bg-background text-foreground overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
-
-      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Content */}
+    <section id="hero" className="bg-background text-foreground py-20 lg:py-32 overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-4xl mx-auto">
+          {/* Badge */}
           <div
-            className={`space-y-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           >
-            {/* Badge */}
-            <Badge variant="secondary" className="w-fit text-sm font-medium">
+            <Badge
+              variant="secondary"
+              className="px-4 py-2 text-sm font-medium bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+            >
               <span data-editable="badge">{config.badge}</span>
             </Badge>
+          </div>
 
-            {/* Title */}
-            <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
-                <span data-editable="title">{config.title}</span>
-              </h1>
-              <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl">
-                <span data-editable="subtitle">{config.subtitle}</span>
-              </p>
-            </div>
+          {/* Main Heading */}
+          <div
+            className={`mb-6 transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          >
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight bg-gradient-to-r from-foreground via-foreground to-muted-foreground bg-clip-text text-transparent">
+              <span data-editable="title">{config.title}</span>
+            </h1>
+          </div>
 
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4">
+          {/* Subtitle */}
+          <div
+            className={`mb-10 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          >
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              <span data-editable="subtitle">{config.subtitle}</span>
+            </p>
+          </div>
+
+          {/* CTA Buttons */}
+          <div
+            className={`mb-16 transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          >
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button
                 size="lg"
-                className="text-lg px-8 py-6 group"
                 onClick={handlePrimaryCta}
                 data-editable-href="primaryCtaHref"
                 data-href={config.primaryCtaHref}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 group"
               >
                 <span data-editable="primaryCta">{config.primaryCta}</span>
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button
                 variant="outline"
                 size="lg"
-                className="text-lg px-8 py-6"
                 onClick={handleSecondaryCta}
                 data-editable-href="secondaryCtaHref"
                 data-href={config.secondaryCtaHref}
+                className="border-border text-foreground hover:bg-accent hover:text-accent-foreground px-8 py-3 text-lg font-semibold transition-all duration-200"
               >
                 <span data-editable="secondaryCta">{config.secondaryCta}</span>
               </Button>
             </div>
+          </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-border">
+          {/* Stats */}
+          <div
+            className={`mb-16 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
               {config.stats.map((stat, idx) => (
-                <div key={idx} className="text-center sm:text-left">
-                  <div className="text-2xl sm:text-3xl font-bold text-primary">
+                <div key={idx} className="text-center">
+                  <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">
                     <span data-editable={`stats[${idx}].value`}>{stat.value}</span>
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-sm text-muted-foreground font-medium">
                     <span data-editable={`stats[${idx}].label`}>{stat.label}</span>
                   </div>
                 </div>
@@ -125,57 +138,43 @@ export default function Hero(props: HeroProps) {
             </div>
           </div>
 
-          {/* Image */}
+          {/* Features Grid */}
           <div
-            className={`relative transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`transition-all duration-700 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <Image
-                src={config.imageUrl}
-                alt={config.imageAlt}
-                data-editable-src="imageUrl"
-                width={800}
-                height={600}
-                className="w-full h-auto object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {config.features.map((feature, idx) => (
+                <Card
+                  key={idx}
+                  className="bg-card/50 backdrop-blur-sm border-border/50 hover:bg-card/80 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                >
+                  <CardContent className="p-6 text-center">
+                    <div className="mb-4 flex justify-center">
+                      <div className="p-3 rounded-full bg-primary/10 text-primary">
+                        {idx === 0 && <Zap className="h-6 w-6" />}
+                        {idx === 1 && <Shield className="h-6 w-6" />}
+                        {idx === 2 && <Rocket className="h-6 w-6" />}
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3 text-card-foreground">
+                      <span data-editable={`features[${idx}].title`}>{feature.title}</span>
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      <span data-editable={`features[${idx}].description`}>
+                        {feature.description}
+                      </span>
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Features */}
-        <div
-          className={`mt-20 lg:mt-32 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-        >
-          <div className="grid md:grid-cols-3 gap-8">
-            {config.features.map((feature, idx) => (
-              <Card
-                key={idx}
-                className="bg-card/50 backdrop-blur-sm border-border/50 hover:bg-card/80 transition-all duration-300"
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 p-2 rounded-lg bg-primary/10">
-                      {idx === 0 && <Zap className="h-6 w-6 text-primary" />}
-                      {idx === 1 && <Shield className="h-6 w-6 text-primary" />}
-                      {idx === 2 && <Rocket className="h-6 w-6 text-primary" />}
-                    </div>
-                    <div className="space-y-2">
-                      <h3 className="text-lg font-semibold">
-                        <span data-editable={`features[${idx}].title`}>{feature.title}</span>
-                      </h3>
-                      <p className="text-muted-foreground">
-                        <span data-editable={`features[${idx}].description`}>
-                          {feature.description}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        {/* Background Elements */}
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
         </div>
       </div>
     </section>

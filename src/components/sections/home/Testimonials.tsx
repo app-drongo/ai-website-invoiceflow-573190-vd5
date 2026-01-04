@@ -2,45 +2,46 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Quote, Star } from 'lucide-react';
+import { Star, Quote } from 'lucide-react';
 import Image from 'next/image';
 
 const DEFAULT_TESTIMONIALS = {
   title: 'What Our Customers Say',
-  subtitle: "Don't just take our word for it - hear from some of our satisfied customers",
+  subtitle:
+    "Don't just take our word for it. Here's what real customers have to say about their experience.",
   testimonials: [
     {
       name: 'Sarah Chen',
       role: 'CTO at TechFlow',
       company: 'TechFlow',
       content:
-        'This platform has completely transformed how we handle our deployments. The unified approach saves us hours every week and eliminates the complexity we used to face.',
+        'This platform has completely transformed how we handle deployments. The unified approach saves us hours every week and eliminates the complexity we used to face.',
       rating: 5,
       avatarUrl:
-        'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&q=80',
-      avatarAlt: 'Sarah Chen profile photo',
+        'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&q=80',
+      avatarFallback: 'SC',
     },
     {
       name: 'Marcus Rodriguez',
       role: 'Lead Developer',
       company: 'InnovateLabs',
       content:
-        "The seamless integration and intuitive interface made adoption effortless for our entire team. We've seen a 40% improvement in deployment speed since switching.",
+        'The seamless integration and intuitive interface made adoption incredibly smooth. Our team was up and running in minutes, not hours.',
       rating: 5,
       avatarUrl:
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80',
-      avatarAlt: 'Marcus Rodriguez profile photo',
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&q=80',
+      avatarFallback: 'MR',
     },
     {
       name: 'Emily Watson',
       role: 'DevOps Engineer',
       company: 'CloudScale',
       content:
-        'Finally, a solution that actually delivers on its promises. The reliability and performance improvements have been game-changing for our infrastructure management.',
+        'Finally, a solution that understands the modern development workflow. The automation features have reduced our deployment time by 80%.',
       rating: 5,
       avatarUrl:
-        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&q=80',
-      avatarAlt: 'Emily Watson profile photo',
+        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&q=80',
+      avatarFallback: 'EW',
     },
   ],
 } as const;
@@ -54,7 +55,9 @@ export default function Testimonials(props: TestimonialsProps) {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`h-4 w-4 ${i < rating ? 'text-primary fill-primary' : 'text-muted-foreground'}`}
+        className={`h-4 w-4 ${
+          i < rating ? 'text-yellow-500 fill-current' : 'text-muted-foreground'
+        }`}
       />
     ));
   };
@@ -67,7 +70,7 @@ export default function Testimonials(props: TestimonialsProps) {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
             <span data-editable="title">{config.title}</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             <span data-editable="subtitle">{config.subtitle}</span>
           </p>
         </div>
@@ -90,26 +93,25 @@ export default function Testimonials(props: TestimonialsProps) {
                   {renderStars(testimonial.rating)}
                 </div>
 
-                {/* Testimonial Content */}
+                {/* Content */}
                 <blockquote className="text-foreground mb-6 leading-relaxed">
                   <span data-editable={`testimonials[${idx}].content`}>
                     "{testimonial.content}"
                   </span>
                 </blockquote>
 
-                {/* Author Info */}
+                {/* Author */}
                 <div className="flex items-center gap-3">
                   <Avatar className="h-12 w-12">
                     <AvatarImage
                       src={testimonial.avatarUrl}
-                      alt={testimonial.avatarAlt}
+                      alt={testimonial.name}
                       data-editable-src={`testimonials[${idx}].avatarUrl`}
                     />
-                    <AvatarFallback className="bg-primary text-primary-foreground">
-                      {testimonial.name
-                        .split(' ')
-                        .map(n => n[0])
-                        .join('')}
+                    <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
+                      <span data-editable={`testimonials[${idx}].avatarFallback`}>
+                        {testimonial.avatarFallback}
+                      </span>
                     </AvatarFallback>
                   </Avatar>
                   <div>
@@ -118,14 +120,10 @@ export default function Testimonials(props: TestimonialsProps) {
                     </div>
                     <div className="text-sm text-muted-foreground">
                       <span data-editable={`testimonials[${idx}].role`}>{testimonial.role}</span>
-                      {testimonial.company && (
-                        <>
-                          {' at '}
-                          <span data-editable={`testimonials[${idx}].company`}>
-                            {testimonial.company}
-                          </span>
-                        </>
-                      )}
+                      {' at '}
+                      <span data-editable={`testimonials[${idx}].company`}>
+                        {testimonial.company}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -134,12 +132,12 @@ export default function Testimonials(props: TestimonialsProps) {
           ))}
         </div>
 
-        {/* Bottom Accent */}
+        {/* Bottom accent */}
         <div className="mt-16 text-center">
           <div className="inline-flex items-center gap-2 text-muted-foreground">
             <div className="flex gap-1">
               {Array.from({ length: 5 }, (_, i) => (
-                <Star key={i} className="h-4 w-4 text-primary fill-primary" />
+                <Star key={i} className="h-4 w-4 text-yellow-500 fill-current" />
               ))}
             </div>
             <span className="text-sm font-medium">Trusted by 1000+ developers worldwide</span>

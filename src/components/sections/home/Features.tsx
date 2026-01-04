@@ -3,13 +3,13 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Zap, Shield, Rocket, Code, Globe, Lock } from 'lucide-react';
+import { Zap, Shield, Rocket, Code, Database, Cloud } from 'lucide-react';
 import { useSmartNavigation } from '@/hooks/useSmartNavigation';
 
 const DEFAULT_FEATURES = {
-  title: 'Powerful Features for Modern Teams',
+  title: 'Powerful Features for Modern Development',
   subtitle: 'Everything you need to build, deploy, and scale your applications with confidence',
-  ctaText: 'Start Building',
+  ctaText: 'Get Started',
   ctaHref: '/signup',
   features: [
     {
@@ -27,7 +27,7 @@ const DEFAULT_FEATURES = {
     {
       title: 'Auto-Scaling Infrastructure',
       description:
-        'Automatically scale your resources based on demand with intelligent load balancing and monitoring',
+        'Automatically scale your resources based on demand with zero downtime and intelligent load balancing',
       badge: 'Scalability',
     },
     {
@@ -37,16 +37,16 @@ const DEFAULT_FEATURES = {
       badge: 'DX',
     },
     {
-      title: 'Global Edge Network',
+      title: 'Real-time Analytics',
       description:
-        'Deliver content at lightning speed with our worldwide CDN and edge computing capabilities',
-      badge: 'Performance',
+        'Monitor performance, track user behavior, and gain insights with our advanced analytics dashboard',
+      badge: 'Analytics',
     },
     {
-      title: 'Advanced Analytics',
+      title: 'Global CDN',
       description:
-        'Real-time insights and detailed analytics to optimize performance and user experience',
-      badge: 'Insights',
+        'Deliver content at lightning speed with our worldwide content delivery network and edge caching',
+      badge: 'Performance',
     },
   ],
 } as const;
@@ -61,50 +61,54 @@ export default function Features(props: FeaturesProps) {
     navigate(config.ctaHref);
   };
 
+  const renderIcon = (index: number) => {
+    const iconClass = 'h-8 w-8 text-primary';
+    switch (index) {
+      case 0:
+        return <Zap className={iconClass} />;
+      case 1:
+        return <Shield className={iconClass} />;
+      case 2:
+        return <Rocket className={iconClass} />;
+      case 3:
+        return <Code className={iconClass} />;
+      case 4:
+        return <Database className={iconClass} />;
+      case 5:
+        return <Cloud className={iconClass} />;
+      default:
+        return <Zap className={iconClass} />;
+    }
+  };
+
   return (
-    <section id="features" className="bg-background text-foreground py-20 lg:py-32">
+    <section id="features" className="bg-background text-foreground py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
             <span data-editable="title">{config.title}</span>
           </h2>
-          <p className="text-lg text-muted-foreground mb-8">
+          <p className="text-lg text-muted-foreground leading-relaxed">
             <span data-editable="subtitle">{config.subtitle}</span>
           </p>
-          <Button
-            size="lg"
-            onClick={handleCTAClick}
-            data-editable-href="ctaHref"
-            data-href={config.ctaHref}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-          >
-            <span data-editable="ctaText">{config.ctaText}</span>
-          </Button>
         </div>
 
         {/* Features Grid */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-16">
           {config.features.map((feature, idx) => (
             <Card
               key={idx}
-              className="bg-card text-card-foreground border-border hover:shadow-lg transition-all duration-300 group"
+              className="bg-card text-card-foreground border-border hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
             >
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between mb-4">
-                  <div className="p-3 bg-primary/10 rounded-lg text-primary group-hover:bg-primary/20 transition-colors">
-                    {idx === 0 && <Zap className="h-6 w-6" />}
-                    {idx === 1 && <Shield className="h-6 w-6" />}
-                    {idx === 2 && <Rocket className="h-6 w-6" />}
-                    {idx === 3 && <Code className="h-6 w-6" />}
-                    {idx === 4 && <Globe className="h-6 w-6" />}
-                    {idx === 5 && <Lock className="h-6 w-6" />}
-                  </div>
-                  <Badge variant="secondary" className="text-xs">
+                  <div className="p-3 bg-primary/10 rounded-lg">{renderIcon(idx)}</div>
+                  <Badge variant="secondary" className="bg-accent text-accent-foreground">
                     <span data-editable={`features[${idx}].badge`}>{feature.badge}</span>
                   </Badge>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">
+                <h3 className="text-xl font-semibold">
                   <span data-editable={`features[${idx}].title`}>{feature.title}</span>
                 </h3>
               </CardHeader>
@@ -117,21 +121,25 @@ export default function Features(props: FeaturesProps) {
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <p className="text-muted-foreground mb-6">
-            Ready to experience the future of deployment?
-          </p>
-          <Button
-            variant="outline"
-            size="lg"
-            onClick={handleCTAClick}
-            data-editable-href="ctaHref"
-            data-href={config.ctaHref}
-            className="border-border hover:bg-accent hover:text-accent-foreground transition-colors"
-          >
-            <span data-editable="ctaText">{config.ctaText}</span>
-          </Button>
+        {/* CTA Section */}
+        <div className="text-center">
+          <div className="inline-flex items-center gap-4 p-6 bg-primary/5 rounded-2xl border border-border">
+            <div className="text-left">
+              <h3 className="text-lg font-semibold mb-1">Ready to get started?</h3>
+              <p className="text-sm text-muted-foreground">
+                Join thousands of developers building the future
+              </p>
+            </div>
+            <Button
+              onClick={handleCTAClick}
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+              data-editable-href="ctaHref"
+              data-href={config.ctaHref}
+            >
+              <span data-editable="ctaText">{config.ctaText}</span>
+            </Button>
+          </div>
         </div>
       </div>
     </section>
