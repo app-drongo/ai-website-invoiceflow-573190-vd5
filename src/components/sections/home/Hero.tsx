@@ -17,7 +17,7 @@ const DEFAULT_HERO = {
   primaryCtaHref: '/signup',
   secondaryCta: 'View Demo',
   secondaryCtaHref: '/demo',
-  imageUrl: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&h=800&fit=crop&q=80',
+  imageUrl: 'https://pub-60de11c8c43b49ea9bd786eb6273aa91.r2.dev/0a8f0e8338ef58a2c02d8a3edc1d034c.png',
   imageAlt: 'Modern deployment dashboard interface',
   features: [
     {
